@@ -3,16 +3,17 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../context/SocketProvider";
 
-const LobbyScreen = () => {
-  const [email, setEmail] = useState("");
+const LobbyScreen = () =>  {
+  const [email, setEmail] = useState(""); 
   const [room, setRoom] = useState("");
 
   const socket = useSocket();
   const navigate = useNavigate();
 
   const handleSubmitForm = useCallback(
-    (e) => {
+    (e) => { 
       e.preventDefault();
+      // console.log({email,room})
       socket.emit("room:join", { email, room });
     },
     [email, room, socket]
@@ -42,7 +43,7 @@ const LobbyScreen = () => {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-        />
+        /> 
         <br />
         <label htmlFor="room">Room Number</label>
         <input
