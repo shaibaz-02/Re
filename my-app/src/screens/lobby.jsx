@@ -11,7 +11,7 @@ const LobbyScreen = () =>  {
   const navigate = useNavigate();
 
   const handleSubmitForm = useCallback(
-    (e) => { 
+    (e) => {
       e.preventDefault();
       // console.log({email,room})
       socket.emit("room:join", { email, room });
