@@ -1,18 +1,20 @@
-// const express=require('express');
-// const bodyParser=require('body-parser'); 
-const {Server, Socket}=require('socket.io');
-const io=new Server(8000,{
-    cors:true,
-})
-io.on("connection",(Socket)=>{
-    console.log(`socket connected`,Socket.id)
-})
-// const app=express();
+const { Server } = require("socket.io");
 
-// app.get('/',(req,res)=>{
-//     res.send("hello guys!!")
-// })
+const io = new Server(8000, {
+  cors: true,
+});
 
-// app.listen(8000,()=>{
-//     console.log("port 8000 is started");
-// })
+const emailToSocketIdMap = new Map();
+const socketidToEmailMap = new Map();
+
+io.on("connection", (socket) => {
+  console.log(`Socket Connected`, socket.id);
+  socket.on("room:join", (data) => {
+    const { email, room } = data;
+    emailToSocketIdMap.set(email, socket.id);
+    socketidToEmailMap.set(socket.id, email);
+    io.to(room).emit("user:joined", { email, id: socket.id });
+    socket.join(room);
+    io.to(socket.id).emit("room:join", data);
+  });
+});
