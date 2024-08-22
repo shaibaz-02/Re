@@ -21,4 +21,7 @@ io.on("connection", (socket) => {
   socket.on("user:call",({to,offer })=>{
     io.to(to).emit("incomming:call",{from:socket.id,offer});
   });
+  socket.on("call:accepted",({to,ans})=>{21
+    io.to(to).emit("call:accepted",{from:socket.id,ans});
+  });
 });
